@@ -10,8 +10,13 @@ import java.util.logging.Logger;
 /**
  * Simple TCP server
  */
-public class TCPServer {
+public class TCPServer implements Runnable{
     private static Logger log = Logger.getLogger(TCPServer.class.getName());
+
+    Socket socket;
+    TCPServer(Socket socket){
+        this.socket = socket;
+    }
 
     public static void main(String[] args) {
         if(args.length != 1){
@@ -25,11 +30,7 @@ public class TCPServer {
             while(true) {
                 Socket socket = serverSocket.accept();
                 displayInfo(socket);
-                String message = getMessage(socket);
-                displayInfo(message);
-                sendMessageToClient(socket, message);
-                socket.close();
-                log.info("Close connection...");
+                new Thread(new TCPServer(socket)).start();
             }
         }catch (Exception e){
             System.out.println(e);
@@ -56,5 +57,19 @@ public class TCPServer {
         DataOutputStream sendToClient = new DataOutputStream(socket.getOutputStream());
         sendToClient.writeBytes(message);
         sendToClient.flush();
+    }
+
+    @Override
+    public void run() {
+        String message = null;
+        try {
+            message = getMessage(socket);
+            displayInfo(message);
+            sendMessageToClient(socket, message);
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.info("Close connection...");
     }
 }
