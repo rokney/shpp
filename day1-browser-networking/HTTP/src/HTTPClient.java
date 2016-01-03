@@ -5,7 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * 
+ *
  */
 public class HTTPClient {
     public static void main(String[] args) {
@@ -16,10 +16,10 @@ public class HTTPClient {
         try{
             URL url = new URL(args[0]);
             HttpURLConnection conect = (HttpURLConnection)url.openConnection();
-            conect.setDoOutput(true);
             conect.setDoInput(true);
+            conect.setDoOutput(true);
             conect.setRequestMethod("POST");
-            conect.setUseCaches(false);
+            conect.setUseCaches(true);
             String message = "Hello";
             byte[] sendData = message.getBytes();
             conect.setRequestProperty("Content-length", String.valueOf(sendData.length));
@@ -27,14 +27,10 @@ public class HTTPClient {
             OutputStream out = conect.getOutputStream();
             out.write(sendData);
             out.flush();
-            BufferedReader in = new BufferedReader(new InputStreamReader(conect.getInputStream()));
-            String result;
-            while((result = in.readLine()) != null){
-                System.out.println(result);
-                if(result.isEmpty()){
-                    break;
-                }
-            }
+            out.close();
+            System.out.println("Method: " + conect.getRequestMethod());
+            System.out.println("Code: " + conect.getResponseCode());
+            System.out.println("Message: " + conect.getResponseMessage());
             conect.disconnect();
         }catch(Exception e){
             System.out.println(e);

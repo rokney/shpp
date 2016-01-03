@@ -4,7 +4,7 @@ import java.net.Socket;
 
 /**
  *
- */
+*/
 public class HTTPServer {
     public static void main(String[] args) {
         if(args.length != 1){
@@ -18,22 +18,15 @@ public class HTTPServer {
             while(true){
                 Socket socket = serverSocket.accept();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                 String temp;
                 while((temp = reader.readLine())!= null) {
-                    System.out.println(temp);
                     if(temp.isEmpty()){
                         break;
                     }
+                    System.out.println(temp);
                 }
-                out.writeBytes("HTTP/1.0 200 OK");
-                out.writeBytes("Content-Type: text/html");
-                out.writeBytes("Server: Test");
-                out.writeBytes("");
-                out.writeBytes("<H1>Welcome to the temporary HTTP-server</H1>");
-
-                out.flush();
                 socket.close();
+                System.out.println("Close connection...");
             }
         }catch(Exception e){
             System.out.println(e);
