@@ -1,0 +1,208 @@
+body {
+    background-color: #f0f0f0;
+    color: #878787;
+}
+
+.wrapper {
+    width: 960px;
+    margin: auto;
+}
+
+.header {
+    padding: 28px 0;
+    display: block;
+    border-bottom: 1px solid #d6d6d6;
+    margin-bottom: 28px;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.logo {
+    float: left;
+}
+
+.menu {
+    float: right;
+    list-style: none;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.menu ul {
+    margin: 0;
+    list-style-type: none;
+}
+
+.menu ul li {
+    float: left;
+    padding: 0;
+    margin-left: 15px;
+}
+
+.intro {
+    border-bottom: 1px solid #d6d6d6;
+    margin-bottom: 38px;
+    padding-bottom: 28px;
+}
+
+.intro p {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    float: left;
+    border-right: 1px solid #d6d6d6;
+    padding-right: 30px;
+    width: 720px;
+}
+
+.intro .social {
+    float: right;
+    text-align: left;
+}
+
+.intro .social h3 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 22px;
+}
+
+.intro .social ul {
+    padding: 0;
+    margin-bottom: -10px;
+}
+
+.intro .social ul li {
+    display: inline-block;
+    padding: 0;
+    margin-right: 3px;
+}
+
+.content {
+    width: 100%;
+}
+
+.content .gallery {
+    width: 980px;
+    margin: 0 auto;
+    padding-left: 20px;
+}
+
+.content .gallery ul {
+    margin: 0;
+    padding: 0 0 40px 0;
+}
+
+.content .gallery ul li {
+    display: block;
+    width: 225px;
+    height: 223px;
+    float: left;
+    text-align: center;
+    background: #FFFFFF;
+    padding: 0;
+    margin: 0 20px 20px 0;
+}
+
+.content .gallery ul li img {
+    width: 225px;
+    heigth: 183px;
+}
+
+.content .gallery ul li h4 {
+    margin: 10px 0;
+}
+
+.footerline {
+    width: 960px;
+    margin: auto;
+}
+
+.footerwrapper {
+    width: 1000px;
+    margin: 0 auto 40px;
+    padding-top: 54px;
+    padding-left: 40px;
+}
+
+.footerwrapper .box {
+    width: 300px;
+    float: left;
+    margin-right: 30px;
+}
+
+.footerwrapper .box ul {
+    margin: 0;
+    padding: 0;
+}
+
+.footerwrapper .box ul li {
+    padding: 0;
+    list-style: none;
+    text-align: left;
+    clear: both;
+}
+
+.footerwrapper .box ul li img {
+    float: left;
+    padding: 5px;
+    display: block;
+}
+
+.footerwrapper .box ul li h6 {
+    margin: 0;
+    padding-top: 5px;
+    font-size: 14px;
+}
+
+.footerwrapper .box ul li p {
+    font-size: 12px;
+
+}
+
+.footerwrapper .box h3 {
+    background-color: #FFFFFF;
+    text-align: center;
+}
+
+.footerwrapper .box ul li .tw {
+    font-size: 18px;
+    padding-left: 28px;
+}
+
+.forms li {
+    margin-bottom: 15px;
+}
+
+.forms li .post_mail {
+    width: 280px;
+    padding-left: 10px;
+}
+
+.forms li .post_name {
+    width: 280px;
+    padding-left: 10px;
+}
+
+.forms li .post_text {
+    width: 280px;
+    padding-left: 10px;
+}
+
+.bottom {
+    padding: 0;
+    width: 960px;
+    margin: auto;
+    height: 30px;
+    background: #222222;
+}
+
+.bottom p {
+    margin: 5px 0;
+    float: left;
+}
+
+.bottom img {
+    float: right;
+}
