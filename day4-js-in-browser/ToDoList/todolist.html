@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="script.js" async></script>
+</head>
+<body>
+<div id="logo">
+    <h1>To Do List</h1>
+</div>
+
+<input type="text" id="text">
+<ul id="todolist"></ul>
+<div id="controller">
+    <div id="totalTasks"></div>
+    <div class="buttons">
+        <button id="all" onclick="displayAll()">All</button>
+        <button id="active" onclick="displayActive()">Active Tasks</button>
+        <button id="completed" onclick="displayCompleted()">Completed</button>
+    </div>
+    <button id="clear" onclick="deleteCompleted()">Clear Completed</button>
+    <div class="clearFix"></div>
+</div>
+</body>
+</html>

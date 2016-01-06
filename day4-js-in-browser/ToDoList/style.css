@@ -1,0 +1,83 @@
+#logo {
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0 auto;
+}
+
+#text {
+    display: block;
+    width: 500px;
+    margin: 0 auto 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    width: 600px;
+}
+
+li {
+    width: 600px;
+    border: 1px solid #cccccc;
+    background: #eeeeee;
+    color: #000;
+    margin: 3px;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+img {
+    width: 20px;
+    height: 20px;
+}
+
+.remove {
+    padding: 0;
+    margin: 0;
+    display: none;
+    width: 22px;
+    height: 22px;
+}
+
+li:hover {
+    background: #cccccc;
+}
+
+li:hover .remove {
+    display: block;
+    float: right;
+}
+
+input:checked + span {
+    text-decoration: line-through;
+    color: red;
+}
+
+#controller {
+    display: block;
+    width: 600px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+#totalTasks {
+    float: left;
+    width: 160px;
+    height: 20px;
+    padding-left: 10px;
+}
+
+.buttons {
+    float: left;
+}
+
+#clear {
+    float: right;
+    display: none;
+}
+
+.clearFix {
+    clear: both;
+}
