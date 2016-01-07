@@ -25,6 +25,12 @@ inputText.onkeyup = function (event) {
 function addNewTask(todoList, text) {
     totalTasks++;
     var listItem = document.createElement("li");
+    createNewListElement(listItem, text);
+    todoList.appendChild(listItem);
+    tasksLeft.innerText = totalTasks + ' tasks left';
+}
+
+function createNewListElement(listItem, text){
     var checkBox = document.createElement("input");
     checkBox.type = "checkbox";
     checkBox.addEventListener("click", updateStatus);
@@ -38,14 +44,26 @@ function addNewTask(todoList, text) {
     listItem.appendChild(btnRemove);
     span.addEventListener("dblclick", changeItem);
     listToDoElements.push(listItem);
-    localStorage["todolist"] = JSON.stringify(listToDoElements);
     btnRemove.addEventListener("click", removeTask);
-    todoList.appendChild(listItem);
-    tasksLeft.innerText = totalTasks + ' tasks left';
 }
 
 function changeItem() {
-   
+    var currList = this.parentNode;
+    var input = document.createElement("input");
+    input.type = "text";
+
+    input.value = this.innerHTML;
+
+    input.onkeyup = function (event) {
+        if (event.which == 13) {
+            var textValue = input.value;
+            parentNode = currList.parentNode;
+            currList.innerHTML = "";
+            createNewListElement(currList, textValue);
+            parentNode.appendChild(currList);
+        }
+    }
+    currList.replaceChild(input, currList.firstChild);
 }
 
 function removeTask() {
@@ -60,6 +78,8 @@ function removeTask() {
         currentTask.setAttribute("class", "");
     }
     tasksLeft.innerText = totalTasks + ' tasks left';
+
+    listToDoElements.splice(listToDoElements.indexOf(currentTask), 1);
 }
 
 function updateStatus() {
@@ -80,12 +100,13 @@ function updateStatus() {
 }
 
 function displayAll() {
+    changeButtonStyle(1);
     for (i = 0; i < listToDoElements.length; i++) {
         listToDoElements[i].style.display = 'block';
     }
-    localStorage["todolist"] = JSON.stringify(listToDoElements);
 }
 function displayActive() {
+    changeButtonStyle(2);
     for (i = 0; i < listToDoElements.length; i++) {
         var currItem = listToDoElements[i].firstChild;
         if (!currItem.checked) {
@@ -94,10 +115,10 @@ function displayActive() {
             currItem.parentNode.style.display = "none";
         }
     }
-    localStorage["todolist"] = JSON.stringify(listToDoElements);
 }
 
 function displayCompleted() {
+    changeButtonStyle(3);
     for (i = 0; i < listToDoElements.length; i++) {
         var currItem = listToDoElements[i].firstChild;
         if (currItem.checked) {
@@ -106,7 +127,6 @@ function displayCompleted() {
             currItem.parentNode.style.display = "none";
         }
     }
-    localStorage["todolist"] = JSON.stringify(listToDoElements);
 }
 
 function deleteCompleted() {
@@ -118,7 +138,47 @@ function deleteCompleted() {
             i--;
         }
     }
-    localStorage["todolist"] = JSON.stringify(listToDoElements);
     checked = 0;
     document.getElementById("clear").style.display = "none";
+}
+
+function changeButtonStyle(id) {
+    if (id == 1) {
+        document.getElementById("all").style.color = "red";
+        document.getElementById("active").style.color = "black";
+        document.getElementById("completed").style.color = "black";
+    }
+    if (id == 2) {
+        document.getElementById("all").style.color = "black";
+        document.getElementById("active").style.color = "red";
+        document.getElementById("completed").style.color = "black";
+    }
+    if (id == 3) {
+        document.getElementById("all").style.color = "black";
+        document.getElementById("active").style.color = "black";
+        document.getElementById("completed").style.color = "red";
+    }
+}
+
+function selectAll() {
+    var chB = document.getElementById("selAll")
+    totalTasks = 0;
+    if (chB.checked) {
+        for (i = 0; i < listToDoElements.length; i++) {
+            var currItem = listToDoElements[i].firstChild;
+            currItem.checked = true;
+        }
+        checked = listToDoElements.length;
+        tasksLeft.innerText = totalTasks + ' tasks left';
+        document.getElementById("clear").style.display = "block";
+    } else {
+        for (i = 0; i < listToDoElements.length; i++) {
+            var currItem = listToDoElements[i].firstChild;
+            currItem.checked = false;
+        }
+        checked = 0;
+        totalTasks = listToDoElements.length;
+        tasksLeft.innerText = totalTasks + ' tasks left';
+        document.getElementById("clear").style.display = "none";
+    }
 }

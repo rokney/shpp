@@ -5,6 +5,17 @@
     margin: 0 auto;
 }
 
+.inputData{
+    display:block;
+    margin: 0 auto;
+    width: 600px;
+}
+
+#selAll{
+    float: left;
+    margin-left: 8px;
+}
+
 #text {
     display: block;
     width: 500px;
@@ -49,6 +60,8 @@ li:hover .remove {
     display: block;
     float: right;
 }
+
+
 
 input:checked + span {
     text-decoration: line-through;
