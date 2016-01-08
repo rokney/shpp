@@ -1,6 +1,7 @@
 body {
     background-color: #f0f0f0;
     color: #878787;
+    font-family: 'Open Sans', sans-serif;;
 }
 
 .wrapper {
@@ -41,6 +42,28 @@ body {
     margin-left: 15px;
 }
 
+#active {
+    color: #ad6069
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #878787;
+    font-size: 14px;
+}
+
+h4 {
+    margin: 0;
+}
+
+h4:first-letter {
+    font-size: 140%;
+}
+
+h3:first-letter {
+    font-size: 140%;
+}
+
 .intro {
     border-bottom: 1px solid #d6d6d6;
     margin-bottom: 38px;
@@ -70,7 +93,8 @@ body {
 
 .intro .social ul {
     padding: 0;
-    margin-bottom: -10px;
+    margin-top: 5px;
+    margin-bottom: -20px;
 }
 
 .intro .social ul li {
@@ -81,6 +105,7 @@ body {
 
 .content {
     width: 100%;
+    margin-bottom: 28px;
 }
 
 .content .gallery {
@@ -103,15 +128,12 @@ body {
     background: #FFFFFF;
     padding: 0;
     margin: 0 20px 20px 0;
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
 }
 
 .content .gallery ul li img {
     width: 225px;
     heigth: 183px;
-}
-
-.content .gallery ul li h4 {
-    margin: 10px 0;
 }
 
 .footerline {
@@ -122,7 +144,7 @@ body {
 .footerwrapper {
     width: 1000px;
     margin: 0 auto 40px;
-    padding-top: 54px;
+    padding-top: 14px;
     padding-left: 40px;
 }
 
@@ -144,9 +166,14 @@ body {
     clear: both;
 }
 
+.footerwrapper .box ul + li {
+    border-bottom: 1px solid #d6d6d6;
+}
+
 .footerwrapper .box ul li img {
     float: left;
-    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
     display: block;
 }
 
@@ -164,11 +191,18 @@ body {
 .footerwrapper .box h3 {
     background-color: #FFFFFF;
     text-align: center;
+    padding: 7px 0;
 }
 
 .footerwrapper .box ul li .tw {
+    margin: 3px;
     font-size: 18px;
     padding-left: 28px;
+}
+
+.footerwrapper .box ul li .tw a {
+    text-decoration: none;
+    color: #ad6069;
 }
 
 .forms li {
@@ -176,18 +210,37 @@ body {
 }
 
 .forms li .post_mail {
-    width: 280px;
-    padding-left: 10px;
+    box-sizing: border-box;
+    width: 300px;
+    border: 0px;
+    background-color: #e2e2e2;
+    font-size: 15px;
+    padding: 5px;
 }
 
 .forms li .post_name {
-    width: 280px;
-    padding-left: 10px;
+    box-sizing: border-box;
+    width: 300px;
+    border: 0px;
+    background-color: #e2e2e2;
+    font-size: 15px;
+    padding: 5px;
+}
+
+::-webkit-input-placeholder {
+    color: #222222;
 }
 
 .forms li .post_text {
-    width: 280px;
-    padding-left: 10px;
+    box-sizing: border-box;
+    width: 300px;
+    height: 100px;
+    border: 0px;
+    background-color: #e2e2e2;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 5px;
+    resize: none;
 }
 
 .bottom {
@@ -198,11 +251,38 @@ body {
     background: #222222;
 }
 
+input[type=submit] {
+    width: 75px;
+    height: 35px;
+    background-color: #222222;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+}
+
 .bottom p {
-    margin: 5px 0;
+    margin: 5px 5px;
     float: left;
 }
 
 .bottom img {
     float: right;
+}
+
+#border {
+    margin: 20px 0;
+    border: 1px solid #d6d6d6;
+}
+
+.icon {
+    margin-top: 7px;
+    width: 55px;
+    height: 55px;
+    box-sizing: border-box;
+    border: 4px solid #ffffff;
 }
