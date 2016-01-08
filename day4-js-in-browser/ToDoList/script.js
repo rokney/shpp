@@ -26,11 +26,12 @@ function addNewTask(todoList, text) {
     totalTasks++;
     var listItem = document.createElement("li");
     createNewListElement(listItem, text);
+    listToDoElements.push(listItem);
     todoList.appendChild(listItem);
     tasksLeft.innerText = totalTasks + ' tasks left';
 }
 
-function createNewListElement(listItem, text){
+function createNewListElement(listItem, text) {
     var checkBox = document.createElement("input");
     checkBox.type = "checkbox";
     checkBox.addEventListener("click", updateStatus);
@@ -43,7 +44,6 @@ function createNewListElement(listItem, text){
     listItem.appendChild(span);
     listItem.appendChild(btnRemove);
     span.addEventListener("dblclick", changeItem);
-    listToDoElements.push(listItem);
     btnRemove.addEventListener("click", removeTask);
 }
 
@@ -51,19 +51,18 @@ function changeItem() {
     var currList = this.parentNode;
     var input = document.createElement("input");
     input.type = "text";
-
     input.value = this.innerHTML;
-
+    this.innerText = "";
     input.onkeyup = function (event) {
-        if (event.which == 13) {
+        if (event.which == 13 || event.which == 27) {
             var textValue = input.value;
-            parentNode = currList.parentNode;
             currList.innerHTML = "";
             createNewListElement(currList, textValue);
-            parentNode.appendChild(currList);
         }
     }
-    currList.replaceChild(input, currList.firstChild);
+    currList.replaceChild(input, this);
+    input.focus();
+    input.select();
 }
 
 function removeTask() {
