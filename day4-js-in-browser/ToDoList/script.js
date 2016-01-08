@@ -1,183 +1,220 @@
-/**
- * Created by rokne on 06.01.2016.
- */
-
-listToDoElements = [];
-
-var totalTasks = 0;
+var listTasks = [];
+var listChecks = [];
 var checked = 0;
+window.onload = function () {
+    if (localStorage["tasks"] && localStorage["checks"]) {
+        listTasks = JSON.parse(localStorage["tasks"]);
+        listChecks = JSON.parse(localStorage["checks"]);
+        if (localStorage["selall"] == true) {
+            document.getElementById("selAll").checked = localStorage["selall"];
+            selectAll();
+        }
+        if (localStorage["btnSelect"] == 1) {
+            displayActive();
+        } else if (localStorage["btnSelect"] == 2) {
+            displayCompleted();
+        } else {
+            displayAll();
+        }
+
+    }
+}
+
 var tasksLeft = document.getElementById("totalTasks");
 var inputText = document.getElementById("text");
-inputText.focus();
-inputText.onkeyup = function (event) {
-    if (event.which == 13) {
+inputText.onkeyup = function (e) {
+    if (e.which == 13) {
         var textValue = inputText.value;
         if (textValue == "" || textValue == " ") {
             return false;
         }
-
-        addNewTask(document.getElementById("todolist"), textValue);
-        inputText.focus();
-        inputText.value = "";
-
+        listTasks.push(textValue);
+        listChecks.push(false);
+        updateTasks();
+        this.value = "";
     }
 }
-function addNewTask(todoList, text) {
-    totalTasks++;
-    var listItem = document.createElement("li");
-    createNewListElement(listItem, text);
-    listToDoElements.push(listItem);
-    todoList.appendChild(listItem);
-    tasksLeft.innerText = totalTasks + ' tasks left';
+
+var list = document.getElementById("todolist");
+function updateTasks() {
+    list.innerHTML = "";
+    for (i = 0; i < listTasks.length; i++) {
+        var listItem = document.createElement("li");
+        addNewTask(listItem, i);
+        list.appendChild(listItem);
+    }
+    var diff = listTasks.length - checked;
+    tasksLeft.innerText = diff + ' tasks left';
+    localStorage["tasks"] = JSON.stringify(listTasks);
+    localStorage["checks"] = JSON.stringify(listChecks);
 }
 
-function createNewListElement(listItem, text) {
+function addNewTask(listItem, index) {
     var checkBox = document.createElement("input");
     checkBox.type = "checkbox";
-    checkBox.addEventListener("click", updateStatus);
+    checkBox.id = index;
+    if (listChecks[index]) {
+        checkBox.checked = true;
+    }
+    checkBox.onclick = function () {
+        updateStatus(index);
+    }
     var span = document.createElement("span");
-    span.innerText = text;
-    var btnRemove = document.createElement("div")
+    span.innerText = listTasks[index];
+    span.ondblclick = function () {
+        changeTask(span, index);
+    }
+    var btnRemove = document.createElement("div");
     btnRemove.setAttribute("class", "remove");
-    btnRemove.innerHTML = "<img src='img/delete.png'>";
+    btnRemove.innerHTML = "<img src='img/icon-delete.png'>";
+    btnRemove.onclick = function () {
+        removeTask(index);
+    }
     listItem.appendChild(checkBox);
     listItem.appendChild(span);
     listItem.appendChild(btnRemove);
-    span.addEventListener("dblclick", changeItem);
-    btnRemove.addEventListener("click", removeTask);
 }
 
-function changeItem() {
-    var currList = this.parentNode;
-    var input = document.createElement("input");
-    input.type = "text";
-    input.value = this.innerHTML;
-    this.innerText = "";
-    input.onkeyup = function (event) {
-        if (event.which == 13 || event.which == 27) {
-            var textValue = input.value;
-            currList.innerHTML = "";
-            createNewListElement(currList, textValue);
-        }
-    }
-    currList.replaceChild(input, this);
-    input.focus();
-    input.select();
-}
 
-function removeTask() {
-    var currentTask = this.parentNode;
-    var currentCheckBox = currentTask.firstChild;
-    if (currentCheckBox.checked) {
-        currentTask.style.display = "none";
-        currentTask.setAttribute("class", "");
-    } else {
-        totalTasks = (totalTasks >= 0) ? totalTasks - 1 : totalTasks;
-        currentTask.style.display = "none";
-        currentTask.setAttribute("class", "");
-    }
-    tasksLeft.innerText = totalTasks + ' tasks left';
-
-    listToDoElements.splice(listToDoElements.indexOf(currentTask), 1);
-}
-
-function updateStatus() {
-    if (this.checked) {
-        this.setAttribute("class", "checked");
-        checked++;
-        document.getElementById("clear").style.display = "block";
-        totalTasks--;
-    } else {
+function updateStatus(index) {
+    if (listChecks[index]) {
+        listChecks[index] = false;
         checked--;
         if (checked == 0) {
             document.getElementById("clear").style.display = "none";
         }
-        this.setAttribute("class", "unchecked");
-        totalTasks++;
+    } else {
+        listChecks[index] = true;
+        checked++;
+        document.getElementById("clear").style.display = "block";
     }
-    tasksLeft.innerText = totalTasks + ' tasks left';
+    updateTasks();
 }
 
-function displayAll() {
-    changeButtonStyle(1);
-    for (i = 0; i < listToDoElements.length; i++) {
-        listToDoElements[i].style.display = 'block';
+function removeTask(index) {
+    if (listChecks[index]) {
+        checked--;
     }
-}
-function displayActive() {
-    changeButtonStyle(2);
-    for (i = 0; i < listToDoElements.length; i++) {
-        var currItem = listToDoElements[i].firstChild;
-        if (!currItem.checked) {
-            currItem.parentNode.style.display = "block";
-        } else {
-            currItem.parentNode.style.display = "none";
-        }
+    if (checked == 0) {
+        document.getElementById("clear").style.display = "none";
     }
+    listTasks.splice(index, 1);
+    listChecks.splice(index, 1);
+    updateTasks();
 }
 
-function displayCompleted() {
-    changeButtonStyle(3);
-    for (i = 0; i < listToDoElements.length; i++) {
-        var currItem = listToDoElements[i].firstChild;
-        if (currItem.checked) {
-            currItem.parentNode.style.display = "block";
-        } else {
-            currItem.parentNode.style.display = "none";
+function changeTask(span, index) {
+    var list = document.getElementById(index);
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.setAttribute("class", "changetext");
+    input.value = listTasks[index];
+    input.onkeyup = function (e) {
+        if (e.which == 27) {
+            updateTasks();
+        }
+        if (e.which == 13) {
+            listTasks[index] = input.value;
+            if (input.value == "" || input.value == " ") {
+                removeTask(index);
+            }
+            updateTasks();
         }
     }
+    input.onblur = function () {
+        updateTasks();
+    }
+    list.parentNode.replaceChild(input, span);
+    input.focus();
+    input.select();
 }
 
 function deleteCompleted() {
-    for (i = 0; i < listToDoElements.length; i++) {
-        var currItem = listToDoElements[i].firstChild;
-        if (currItem.checked) {
-            currItem.parentNode.style.display = "none";
-            listToDoElements.splice(i, 1);
+    for (i = 0; i < listChecks.length; i++) {
+        if (listChecks[i]) {
+            listChecks.splice(i, 1);
+            listTasks.splice(i, 1);
             i--;
         }
     }
     checked = 0;
     document.getElementById("clear").style.display = "none";
+    document.getElementById("selAll").checked = false;
+    updateTasks();
+}
+
+function displayAll() {
+    changeButtonStyle(0);
+    updateTasks();
+}
+
+function displayActive() {
+    changeButtonStyle(1);
+    list.innerHTML = "";
+    for (i = 0; i < listChecks.length; i++) {
+        if (!listChecks[i]) {
+
+            var listItem = document.createElement("li");
+            addNewTask(listItem, i);
+            list.appendChild(listItem);
+        }
+    }
+    var diff = listTasks.length - checked;
+    tasksLeft.innerText = diff + ' tasks left';
+}
+
+function displayCompleted() {
+    changeButtonStyle(2);
+    list.innerHTML = "";
+    for (i = 0; i < listChecks.length; i++) {
+        if (listChecks[i]) {
+
+            var listItem = document.createElement("li");
+            addNewTask(listItem, i);
+            list.appendChild(listItem);
+        }
+    }
+    var diff = listTasks.length - checked;
+    tasksLeft.innerText = diff + ' tasks left';
+}
+
+function selectAll() {
+    var select = document.getElementById("selAll");
+    if (select.checked) {
+        localStorage["selall"] = true;
+        for (i = 0; i < listChecks.length; i++) {
+            listChecks[i] = true;
+            checked = listChecks.length;
+        }
+        document.getElementById("clear").style.display = "block";
+    } else {
+        localStorage["selall"] = false;
+        for (i = 0; i < listChecks.length; i++) {
+            listChecks[i] = false;
+            checked = 0;
+        }
+        document.getElementById("clear").style.display = "none";
+    }
+    updateTasks()
 }
 
 function changeButtonStyle(id) {
-    if (id == 1) {
+    if (id == 0) {
+        localStorage["btnSelect"] = 0;
         document.getElementById("all").style.color = "red";
         document.getElementById("active").style.color = "black";
         document.getElementById("completed").style.color = "black";
     }
-    if (id == 2) {
+    if (id == 1) {
+        localStorage["btnSelect"] = 1;
         document.getElementById("all").style.color = "black";
         document.getElementById("active").style.color = "red";
         document.getElementById("completed").style.color = "black";
     }
-    if (id == 3) {
+    if (id == 2) {
+        localStorage["btnSelect"] = 2;
         document.getElementById("all").style.color = "black";
         document.getElementById("active").style.color = "black";
         document.getElementById("completed").style.color = "red";
-    }
-}
-
-function selectAll() {
-    var chB = document.getElementById("selAll")
-    totalTasks = 0;
-    if (chB.checked) {
-        for (i = 0; i < listToDoElements.length; i++) {
-            var currItem = listToDoElements[i].firstChild;
-            currItem.checked = true;
-        }
-        checked = listToDoElements.length;
-        tasksLeft.innerText = totalTasks + ' tasks left';
-        document.getElementById("clear").style.display = "block";
-    } else {
-        for (i = 0; i < listToDoElements.length; i++) {
-            var currItem = listToDoElements[i].firstChild;
-            currItem.checked = false;
-        }
-        checked = 0;
-        totalTasks = listToDoElements.length;
-        tasksLeft.innerText = totalTasks + ' tasks left';
-        document.getElementById("clear").style.display = "none";
     }
 }

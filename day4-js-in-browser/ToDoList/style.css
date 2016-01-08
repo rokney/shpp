@@ -1,3 +1,7 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
 #logo {
     display: block;
     text-align: center;
@@ -5,21 +9,28 @@
     margin: 0 auto;
 }
 
-.inputData{
-    display:block;
+.inputData {
+    display: block;
     margin: 0 auto;
     width: 600px;
 }
 
-#selAll{
+#selAll {
     float: left;
-    margin-left: 8px;
+    margin: 8px;
 }
 
 #text {
     display: block;
     width: 500px;
     margin: 0 auto 20px;
+    border-radius: 5px;
+    border-color: white;
+    font-size: 25px;
+}
+
+#text::-webkit-input-placeholder {
+    background-color: #eeeeee;
 }
 
 ul {
@@ -30,13 +41,18 @@ ul {
 }
 
 li {
+    box-sizing: border-box;
     width: 600px;
     border: 1px solid #cccccc;
+    border-radius: 4px;
     background: #eeeeee;
     color: #000;
-    margin: 3px;
-    padding: 2px 0;
+    margin: 10px;
+    padding: 5px 0;
     cursor: pointer;
+    font-size: 25px;
+    background-color: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
 }
 
 img {
@@ -53,7 +69,7 @@ img {
 }
 
 li:hover {
-    background: #cccccc;
+    background-color: rgba(255, 255, 0, 0.2);
 }
 
 li:hover .remove {
@@ -61,7 +77,9 @@ li:hover .remove {
     float: right;
 }
 
-
+span {
+    margin-left: 10px;
+}
 
 input:checked + span {
     text-decoration: line-through;
@@ -93,4 +111,22 @@ input:checked + span {
 
 .clearFix {
     clear: both;
+}
+
+.changetext {
+    font-size: 25px;
+    background-color: #eeeeee;
+}
+
+input[type='checkbox'] {
+    -webkit-appearance: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 2px solid #555;
+    margin: 5px 5px 0 5px;
+}
+
+input[type='checkbox']:checked {
+    background: cornflowerblue;
 }
