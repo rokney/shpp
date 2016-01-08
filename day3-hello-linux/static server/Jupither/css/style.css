@@ -1,0 +1,288 @@
+body {
+    background-color: #f0f0f0;
+    color: #878787;
+    font-family: 'Open Sans', sans-serif;;
+}
+
+.wrapper {
+    width: 960px;
+    margin: auto;
+}
+
+.header {
+    padding: 28px 0;
+    display: block;
+    border-bottom: 1px solid #d6d6d6;
+    margin-bottom: 28px;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.logo {
+    float: left;
+}
+
+.menu {
+    float: right;
+    list-style: none;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.menu ul {
+    margin: 0;
+    list-style-type: none;
+}
+
+.menu ul li {
+    float: left;
+    padding: 0;
+    margin-left: 15px;
+}
+
+#active {
+    color: #ad6069
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #878787;
+    font-size: 14px;
+}
+
+h4 {
+    margin: 0;
+}
+
+h4:first-letter {
+    font-size: 140%;
+}
+
+h3:first-letter {
+    font-size: 140%;
+}
+
+.intro {
+    border-bottom: 1px solid #d6d6d6;
+    margin-bottom: 38px;
+    padding-bottom: 28px;
+}
+
+.intro p {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    float: left;
+    border-right: 1px solid #d6d6d6;
+    padding-right: 30px;
+    width: 720px;
+}
+
+.intro .social {
+    float: right;
+    text-align: left;
+}
+
+.intro .social h3 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 22px;
+}
+
+.intro .social ul {
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: -20px;
+}
+
+.intro .social ul li {
+    display: inline-block;
+    padding: 0;
+    margin-right: 3px;
+}
+
+.content {
+    width: 100%;
+    margin-bottom: 28px;
+}
+
+.content .gallery {
+    width: 980px;
+    margin: 0 auto;
+    padding-left: 20px;
+}
+
+.content .gallery ul {
+    margin: 0;
+    padding: 0 0 40px 0;
+}
+
+.content .gallery ul li {
+    display: block;
+    width: 225px;
+    height: 223px;
+    float: left;
+    text-align: center;
+    background: #FFFFFF;
+    padding: 0;
+    margin: 0 20px 20px 0;
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
+}
+
+.content .gallery ul li img {
+    width: 225px;
+    heigth: 183px;
+}
+
+.footerline {
+    width: 960px;
+    margin: auto;
+}
+
+.footerwrapper {
+    width: 1000px;
+    margin: 0 auto 40px;
+    padding-top: 14px;
+    padding-left: 40px;
+}
+
+.footerwrapper .box {
+    width: 300px;
+    float: left;
+    margin-right: 30px;
+}
+
+.footerwrapper .box ul {
+    margin: 0;
+    padding: 0;
+}
+
+.footerwrapper .box ul li {
+    padding: 0;
+    list-style: none;
+    text-align: left;
+    clear: both;
+}
+
+.footerwrapper .box ul + li {
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.footerwrapper .box ul li img {
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.footerwrapper .box ul li h6 {
+    margin: 0;
+    padding-top: 5px;
+    font-size: 14px;
+}
+
+.footerwrapper .box ul li p {
+    font-size: 12px;
+
+}
+
+.footerwrapper .box h3 {
+    background-color: #FFFFFF;
+    text-align: center;
+    padding: 7px 0;
+}
+
+.footerwrapper .box ul li .tw {
+    margin: 3px;
+    font-size: 18px;
+    padding-left: 28px;
+}
+
+.footerwrapper .box ul li .tw a {
+    text-decoration: none;
+    color: #ad6069;
+}
+
+.forms li {
+    margin-bottom: 15px;
+}
+
+.forms li .post_mail {
+    box-sizing: border-box;
+    width: 300px;
+    border: 0px;
+    background-color: #e2e2e2;
+    font-size: 15px;
+    padding: 5px;
+}
+
+.forms li .post_name {
+    box-sizing: border-box;
+    width: 300px;
+    border: 0px;
+    background-color: #e2e2e2;
+    font-size: 15px;
+    padding: 5px;
+}
+
+::-webkit-input-placeholder {
+    color: #222222;
+}
+
+.forms li .post_text {
+    box-sizing: border-box;
+    width: 300px;
+    height: 100px;
+    border: 0px;
+    background-color: #e2e2e2;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 5px;
+    resize: none;
+}
+
+.bottom {
+    padding: 0;
+    width: 960px;
+    margin: auto;
+    height: 30px;
+    background: #222222;
+}
+
+input[type=submit] {
+    width: 75px;
+    height: 35px;
+    background-color: #222222;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+}
+
+.bottom p {
+    margin: 5px 5px;
+    float: left;
+}
+
+.bottom img {
+    float: right;
+}
+
+#border {
+    margin: 20px 0;
+    border: 1px solid #d6d6d6;
+}
+
+.icon {
+    margin-top: 7px;
+    width: 55px;
+    height: 55px;
+    box-sizing: border-box;
+    border: 4px solid #ffffff;
+}
