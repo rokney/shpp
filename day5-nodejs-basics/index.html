@@ -123,6 +123,14 @@
             color: red;
         }
 
+        .mytext {
+            color: green;
+        }
+
+        .opponenttext {
+            color: purple;
+        }
+
     </style>
 </head>
 <body>
@@ -171,6 +179,7 @@
                 $('#nickWrap').hide();
                 $('.contentWrap').show();
                 $('.inputWrap').show();
+
             } else {
                 $('#nickError').html("Try again");
             }
@@ -194,12 +203,24 @@
     });
 
     socket.on('chat message', function (msg) {
-        $('#messages').append($('<li>').text(msg.nick + ': ' + msg.msg));
+        if (msg.nick !== null) {
+            $('#messages').append("<li><span class='opponenttext'><b>" + msg.nick + ': </b>' + msg.msg + "</span></b></li>");
+        } else {
+            $('#messages').append("<li><b><span class='mytext'>" + msg.msg + "</span></b></li>");
+        }
     });
 
     socket.on('secret', function (data) {
         $('#messages').append($('<li class="secret">').text('Secret message from ' + data.nick + ': ' + data.msg));
     });
+
+    socket.on('new user', function (data) {
+        if (data.nick !== null) {
+            $('#messages').append($('<li>').text(data.nick + ' is connected to the chat. Say hello!'));
+        } else {
+            $('#messages').append($('<li>').text('Welcome to the chat!'));
+        }
+    })
 
     function timeoutFunction() {
         typeing = false;

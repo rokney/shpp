@@ -15,6 +15,8 @@ io.on('connection', function (socket) {
             callback(true);
             socket.nickname = data;
             listSockets[socket.nickname] = socket;
+            socket.broadcast.emit('new user', {nick: data});
+            listSockets[data].emit('new user', {nick: null});
             updateNicknames();
         }
     });
@@ -36,7 +38,8 @@ io.on('connection', function (socket) {
                 callback('usage: "/s UserName your message" for send secret message');
             }
         } else {
-            io.emit('chat message', {msg: msg, nick: socket.nickname});
+            socket.broadcast.emit('chat message', {msg: msg, nick: socket.nickname});
+            listSockets[socket.nickname].emit('chat message', {msg: msg, nick: null})
         }
     });
 
@@ -49,11 +52,11 @@ io.on('connection', function (socket) {
     });
 
     function updateNicknames() {
-        io.sockets.emit('usernames', Object.keys(listSockets));
+        io.emit('usernames', Object.keys(listSockets));
     }
 
 });
 
 http.listen(6630, function () {
-    console.log('listening on *:3000');
+    console.log('listening on *:6630');
 });
