@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mini JQuery</title>
+    <script type="text/javascript" src="myjquery.js"></script>
+</head>
+<body>
+<div id="content">
+    <h1>Some text</h1>
+</div>
+<div id="change" onclick="change()">
+    Change text by click
+</div>
+
+<script>
+    function change(){
+        $('change').html($('content').html());
+    }
+</script>
+</body>
+</html>
