@@ -1,0 +1,243 @@
+<html>
+<head>
+    <title>Ajax chat</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        .inputWrap {
+            background: #000;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 90%;
+            margin-right: .5%;
+        }
+
+        form button {
+            width: 9%;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
+
+        .contentWrap {
+            display: none;
+            margin-bottom: 43px;
+        }
+
+        .inputWrap {
+            display: none;
+        }
+
+        .usersWrap {
+            float: right;
+            height: 100%;
+            width: 15%;
+            background: #FFF;
+            position: fixed;
+            top: 0;
+            right: 0;
+            border-left: 1px solid #000000;
+        }
+
+        #users {
+            list-style-type: none;
+            margin: 4px;
+        }
+
+        #users li {
+            margin: 4px 0;
+            font-size: 18px;
+        }
+
+        .clearFix {
+            clear: both;
+        }
+
+        .chatWrap {
+            width: 85%;
+        }
+
+        .secret {
+            color: blue;
+        }
+
+        #nickWrap {
+            width: 500px;
+            height: 200px;
+            border-radius: 7px;
+            border: 1px solid #000066;
+            background: #eeeeee;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -100px;
+        }
+
+        h2 {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #setNick {
+            padding: 10px;
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        #setNick input {
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .mytext {
+            color: green;
+        }
+
+        .opponenttext {
+            color: purple;
+        }
+    </style>
+</head>
+<body>
+
+<div id="nickWrap">
+    <h2>Enter a username:</h2>
+
+    <p id="nickError"></p>
+
+    <form id="setNick">
+        <input id="nickname">
+        <input type="submit">
+    </form>
+</div>
+
+<div class="contentWrap">
+    <div class="usersWrap">
+        <ul id="users">
+            <h2>Online: </h2>
+        </ul>
+    </div>
+    <div class="chatWrap">
+        <ul id="messages"></ul>
+    </div>
+</div>
+
+<div class="inputWrap">
+    <form id="inputMessage" action="">
+        <input id="m" autocomplete="off" placeholder="usage '/s nickname your mesage' for secret mesage"/>
+        <button>Send</button>
+    </form>
+</div>
+<div class="clearFix"></div>
+
+<script>
+    var userNick = '';
+    $('#setNick').submit(function (e) {
+        e.preventDefault();
+        var message = {
+            nickname: $('#nickname').val()
+        }
+        userNick = message.nickname;
+        $.post('/newUser', message, function (data) {
+            if (data.status == 'ok') {
+                $('#nickWrap').hide();
+                $('.contentWrap').show();
+                $('.inputWrap').show();
+            }else{
+                $('#nickError').html("Try again");
+                $('#nickname').select().focus();
+            }
+        }, 'json');
+        updateOnline();
+    })
+    $(document).ready(function () {
+
+        $('#inputMessage').submit(function (e) {
+            e.preventDefault();
+            var message = {
+                nickname: userNick,
+                text: $('#m').val()
+            }
+            $.post('/send', message, function () {
+                $('#m').val('').focus();
+            }, 'json');
+        })
+        subscribe();
+    })
+
+    function subscribe(data) {
+        if (data && data.messages) {
+            for (var i = 0; i < data.messages.length; i++) {
+                var message = data.messages[i];
+                console.log(message.text);
+                $('#messages').append("<li>" + message.nickname + ':' + message.text + "</li>");
+            }
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/subscribe',
+            success: function (data) {
+                updateOnline();
+                subscribe(data);
+            }
+        })
+    }
+
+    function updateOnline() {
+        $.ajax({
+            type: "GET",
+            url: '/online',
+            success: function (data) {
+                if (data) {
+                    $('#users').html('<h2>Online: </h2>');
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                        $('#users').append($('<li>').text(data[i]));
+                    }
+                }
+            }
+        })
+
+
+    }
+</script>
+
+</body>
+</html>
+</html>
