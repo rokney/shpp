@@ -1,0 +1,278 @@
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        .inputWrap {
+            background: #000;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 80%;
+            margin-right: .5%;
+            float: left;
+        }
+
+        form button, #history {
+            width: 9%;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+            float: right;
+            border-radius: 5px;
+        }
+
+        #history{
+            margin-right: 10px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
+
+        .contentWrap {
+            display: none;
+            margin-bottom: 43px;
+        }
+
+        .inputWrap {
+            display: none;
+        }
+
+        .usersWrap {
+            float: right;
+            height: 100%;
+            width: 15%;
+            background: #FFF;
+            position: fixed;
+            top: 0;
+            right: 0;
+            border-left: 1px solid #000000;
+        }
+
+        #users {
+            list-style-type: none;
+            margin: 4px;
+        }
+
+        #users li {
+            margin: 4px 0;
+            font-size: 18px;
+        }
+
+        .clearFix {
+            clear: both;
+        }
+
+        .chatWrap {
+            width: 85%;
+        }
+
+        .secret {
+            color: blue;
+        }
+
+        #nickWrap {
+            width: 500px;
+            height: 200px;
+            border-radius: 7px;
+            border: 1px solid #000066;
+            background: #eeeeee;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -100px;
+            text-align: center;        }
+
+        h2 {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #setNick {
+            padding: 10px;
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        #setNick input {
+            border-radius: 5px;
+            margin: 5px;
+        }
+        #nickError{
+            text-align: center;
+            color: red;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .mytext {
+            color: green;
+        }
+
+        .opponenttext {
+            color: purple;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="nickWrap">
+    <h2>Enter a username:</h2>
+
+    <p id="nickError"></p>
+
+    <form id="setNick">
+        <input id="nickname">
+        <input type="submit">
+    </form>
+</div>
+
+<div class="contentWrap">
+    <div class="usersWrap">
+        <ul id="users">
+            <h2>Online: </h2>
+        </ul>
+    </div>
+    <div class="chatWrap">
+        <ul id="messages"></ul>
+    </div>
+</div>
+
+<div class="inputWrap">
+    <form id="inputMessage" action="">
+        <input id="m" autocomplete="off" placeholder="usage '/s nickname your mesage' for secret mesage"/>
+        <button>Send</button>
+    </form>
+    <button id="history">History</button>
+</div>
+<div class="clearFix"></div>
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    var socket = io();
+    var isTyping = false;
+    var lastMessage = -1;
+    var messages = $('#messages');
+
+    $('#setNick').submit(function (e) {
+        e.preventDefault();
+        socket.emit('new user', $('#nickname').val(), function (data) {
+            if (data) {
+                $('#nickWrap').hide();
+                $('.contentWrap').show();
+                $('.inputWrap').show();
+                $('#m').focus();
+            } else {
+                $('#nickError').html("You entered invalid user name. Try again...");
+            }
+        });
+        $('#nickname').val('');
+    });
+
+    $('#m').keypress(function(){
+        socket.emit('is typing');
+    })
+
+    $('#history').click(function(){
+        var startIndx = (lastMessage > 0) ? lastMessage : 0;
+        socket.emit('message history', {index: startIndx});
+    })
+
+    socket.on('usernames', function (data) {
+        $('#users').html('<h2>Online: </h2>');
+        for (i = 0; i < data.length; i++) {
+            $('#users').append($('<li>').text(data[i]));
+        }
+    });
+
+    $('#inputMessage').submit(function () {
+        socket.emit('chat message', $('#m').val(), function (data) {
+            $('#messages').append($('<li class="error">').text(data));
+            document.body.scrollTop = document.body.scrollHeight;
+        });
+        $('#m').val('');
+        return false;
+    });
+
+    socket.on('chat message', function (msg) {
+        isTyping = false;
+        $('.isTyping').hide();
+        if (msg.nick !== null) {
+            $('#messages').append("<li><span class='opponenttext'><b>" + msg.nick + ': </b>' + msg.msg + "</span></b></li>");
+        } else {
+            $('#messages').append("<li><b><span class='mytext'>" + msg.msg + "</span></b></li>");
+        }
+        document.body.scrollTop = document.body.scrollHeight;
+    });
+
+    socket.on('secret', function (data) {
+        $('#messages').append($('<li class="secret">').text('Secret message from ' + data.nick + ': ' + data.msg));
+        document.body.scrollTop = document.body.scrollHeight;
+    });
+
+    socket.on('new user', function (data) {
+        if (data.nick !== null) {
+            messages.append($('<li>').text(data.nick + ' is connected to the chat. Say hello!'));
+        } else {
+            messages.append($('<li>').text('Welcome to the chat!'));
+        }
+        socket.emit('message history', {index: 0});
+    })
+
+    socket.on('is typing', function(msg){
+        if(isTyping) {
+            return;
+        }
+        $('#messages').append('<li class="isTyping">' + msg.nick + ' is typing...' + "</li>");
+        isTyping = true;
+    })
+
+    socket.on('disconnect', function(msg){
+        $('#messages').append($('<li class="error">').text(msg + " disconnected from this chat"));
+        document.body.scrollTop = document.body.scrollHeight;
+    })
+
+    socket.on('message history', function(msg){
+        if(msg.list.length){
+            for(var i = 0; i < msg.list.length; i++){
+                $('#messages').prepend("<li><span class='opponenttext'><b>" + msg.list[i].nickname + ': </b>' + msg.list[i].message + "</span></b></li>");
+            }
+        }
+        lastMessage = msg.list[msg.list.length - 1].id;
+    })
+</script>
+
+</body>
+</html>
+</html>
