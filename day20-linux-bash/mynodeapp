@@ -1,0 +1,44 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          mynodeapp-node-server
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starting mynodeapp node-server
+# Description:       Start-stop-reload production mynodeapp node-server
+### END INIT INFO
+
+# Author: aotyan 
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="mynodeapp node server"
+NAME=mynodeapp
+DIR=/var/www/mychat.local.com/
+ENGINE=$DIR/index.js
+DAEMON="/usr/bin/nohup"
+DAEMON_OPTS=" /usr/bin/node "$ENGINE" > /var/www/mychat.local.com//logs/server.log"
+PIDFILE=/var/run/$NAME.pid
+
+test -x $DAEMON || exit 0
+set -e
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+  echo -n "Starting $DESC: "
+	$DAEMON $DAEMON_OPTS &
+        echo $! > $PIDFILE
+	echo "$NAME."
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	kill -9 $(cat $PIDFILE)
+	rm $PIDFILE
+	echo "$NAME."
+	;;
+  *)
+	echo "Usage: $NAME {start|stop}" >&2
+	exit 1
+	;;
+esac
