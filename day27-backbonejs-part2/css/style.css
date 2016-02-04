@@ -1,0 +1,89 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+body{
+    display: block;
+    width: 900px;
+    margin:0 auto;
+}
+
+header{
+    display: block;
+    text-align: center;
+    padding: 0;
+}
+
+#add-task{
+    display:block;
+    width: 800px;
+    height: 30px;
+    margin: 0 auto;
+    clear: both;
+}
+
+#add-task #select-all{
+    float: left;
+    margin-top: 15px;
+}
+#add-task label{
+    float: left;
+    display: block;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+#add-task input#new-task{
+    padding: 7px;
+    width: 83%;
+    border-radius: 5px;
+    font-size: 20px;
+    float: right;
+}
+
+#todo{
+    display: block;
+    padding-top: 10px;
+    width: 850px;
+}
+
+.task{
+    border:1px solid #cccccc;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #eeeeee;
+    font-size: 20px;
+}
+
+.task:hover{
+    background-color: #a7dbd8;
+}
+
+.destroy{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: url(../img/delete.png) no-repeat;
+    float: right;
+}
+
+.edit{
+    display: none;
+}
+
+.editing label{
+    display: none;
+}
+
+.editing input.edit{
+    display: inline;
+    font-size: 18px;
+    padding: 0;
+}
+
+#controller{
+    text-align: center;
+}
+
+
